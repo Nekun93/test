@@ -54,25 +54,104 @@
 //   })
 //   .then(text => console.log(text))
 //   .catch(err => console.error(err));
-require('dotenv').config(); // loads .env
 
-const boardid = process.env.id;
-const APIKEY = process.env.APIKEY;
-const APITOKEN = process.env.APITOKEN;
 
-console.log(boardid)
-console.log(APIKEY)
-console.log(APITOKEN)
+// pls install dotenv with your id apikey and apitoken declared within it
+// pls install npm
+// pls install nodefetch??
+// require('dotenv').config(); // loads .env
+import 'dotenv/config';
 
-fetch(`https://api.trello.com/1/boards/${boardid}/memberships?key=${APIKEY}&token=${APITOKEN}`, {
-  method: "GET",
-  headers: {
-    "Accept": "application/json"
+const id = process.env.id;
+const APIKey = process.env.APIKEY;
+const APIToken = process.env.APITOKEN;
+
+console.log(id)
+console.log(APIKey)
+console.log(APIToken)
+
+// // get board memberships?
+
+// fetch(`https://api.trello.com/1/boards/${id}/memberships?key=${APIKey}&token=${APIToken}`, {
+//   method: "GET",
+//   headers: {
+//     "Accept": "application/json"
+//   }
+// })
+// .then(response => {
+//   console.log(`Response: ${response.status} ${response.statusText}`);
+//   return response.json();
+// })
+// .then(data => console.log(data))
+// .catch(err => console.error(err));
+
+
+// get board fr this time
+
+// This code sample uses the 'node-fetch' library:
+// https://www.npmjs.com/package/node-fetch
+
+// fetch(`https://api.trello.com/1/boards/${id}?key=${APIKey}&token=${APIToken}`, {
+//   method: 'GET',
+//   headers: {
+//     'Accept': 'application/json'
+//   }
+// })
+//   .then(response => {
+//     console.log(
+//       `Response: ${response.status} ${response.statusText}`
+//     );
+//     return response.text();
+//   })
+//   .then(text => console.log(text))
+//   .catch(err => console.error(err));
+
+
+//   fetch(`https://api.trello.com/1/boards/${id}/lists?key=${APIKey}&token=${APIToken}`, {
+//   method: 'GET',
+//   headers: {
+//     'Accept': 'application/json'
+//   }
+// })
+//   .then(response => {
+//     console.log(
+//       `Response: ${response.status} ${response.statusText}`
+//     );
+//     // var smth = parse(text)
+//     return response.text();
+//   })
+//   .then(text => console.log(text))
+//   .catch(err => console.error(err));
+  
+// console.log(smth);
+
+// get list
+
+// fetch(`https://api.trello.com/1/lists/${id}?key=${APIKey}&token=${APIToken}`, {
+//   method: 'GET'
+// })
+//   .then(response => {
+//     console.log(
+//       `Response: ${response.status} ${response.statusText}`
+//     );
+//     return response.text();
+//   })
+//   .then(text => console.log(text))
+//   .catch(err => console.error(err));
+
+
+async function getLists(boardId) {
+  const res = await fetch(
+    `https://api.trello.com/1/boards/${boardId}/lists?key=${APIKey}&token=${APIToken}`
+  );
+
+  if (!res.ok) {
+    throw new Error(res.statusText);
   }
-})
-.then(response => {
-  console.log(`Response: ${response.status} ${response.statusText}`);
-  return response.json();
-})
-.then(data => console.log(data))
-.catch(err => console.error(err));
+
+  return await res.json();
+}
+
+const lists = await getLists(id);
+console.log(lists);
+
